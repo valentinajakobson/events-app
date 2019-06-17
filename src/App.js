@@ -49,7 +49,7 @@ class App extends Component {
   }
 
   getPins() {
-    axios.get(`http://localhost:3001/api/pins/?${this.state.filter_type}&${this.state.filter_lang}`)
+    axios.get(`http://localhost:3001/api/pins/?${this.state.filter_type}&${this.state.filter_lang}&distance_filter=${this.state.position.lat},${this.state.position.lon},${this.state.filter_distance}`)
     .then(result => {
       this.setState(state => {
         state.pins = result.data;
@@ -92,13 +92,14 @@ class App extends Component {
   }
 
   componentDidMount() {
+    this.getPosition();
     this.getEvents();
     this.getPins();
     window.addEventListener('scroll', this.handleScroll)
   }
 
   render() {
-    this.getPosition();
+   
 
     if (!this.state.data || !this.state.pins){
       return null;
@@ -213,25 +214,25 @@ class App extends Component {
                     <div className='by-distance'>
                       <li>
                         <label className='filter-button'>
-                          <RadioInput name='filter_distance' value='distance_filter=1' onChange={this.handleChange} />
+                          <RadioInput name='filter_distance' value='1' onChange={this.handleChange} />
                           <span>1 km</span>
                         </label>
                       </li>
                       <li>
                         <label className='filter-button'>
-                          <RadioInput type='radio' name='filter_distance' value='distance_filter=5' onChange={this.handleChange} />
+                          <RadioInput type='radio' name='filter_distance' value='5' onChange={this.handleChange} />
                           <span>5 km</span>
                         </label>
                       </li>
                       <li>
                         <label className='filter-button'>
-                          <RadioInput type='radio' name='filter_distance' value='distance_filter=10' onChange={this.handleChange} />
+                          <RadioInput type='radio' name='filter_distance' value='10' onChange={this.handleChange} />
                           <span>10 km</span>
                         </label>
                       </li>
                       <li>
                         <label className='filter-button'>
-                          <RadioInput type='radio' name='filter_distance' value='istance_filter=15' onChange={this.handleChange} />
+                          <RadioInput type='radio' name='filter_distance' value='15' onChange={this.handleChange} />
                           <span>15 km</span>
                         </label>
                       </li>
@@ -283,7 +284,7 @@ class App extends Component {
             <aside class='sticky'>
             <MapContainer style={{height: '94vh'}}
             center={{lat: this.state.position.lat, lng: this.state.position.lon}}
-            events={this.state.data}/>
+            events={this.state.pins}/>
             
             </aside>
           </div>

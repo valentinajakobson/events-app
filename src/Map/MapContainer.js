@@ -42,9 +42,8 @@ export class MapContainer extends Component {
       <Map google={this.props.google} zoom={14} initialCenter={this.props.center} style={this.props.style}>
           {this.props.events.map((el, index) => {
               return <Marker key={index}
-              position={{lat: el.location.lat, lng: el.location.lon}}
-              name={el.location.address.street_address}
-              onClick={this.onMarkerClick}
+              position={{lat: el.lat, lng: el.lon}}
+              
               />
           })
           }
