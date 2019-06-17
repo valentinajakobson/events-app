@@ -14,7 +14,8 @@ import CurrentLocation from './CurrentLocation';
       activeMarker: {},
       selectedPlace: {},
       streetViewControl: true,
-      names: []
+      names: [],
+      // points: [],
     }
 
     // binding this to event-handler functions
@@ -36,6 +37,24 @@ import CurrentLocation from './CurrentLocation';
       });
     }
   }
+  // componentDidUpdate(){
+  //   const bounds = new window.google.maps.LatLngBounds()
+  //   this.props.events.map((el, i) => {
+  //   bounds.extend(new window.google.maps.LatLng(
+  //   el.location.lat,
+  //   el.location.lng
+  //  ));
+  // });
+  // this.map.fitBounds(bounds)
+  // };
+
+// {this.props.events.map((el, index) => {
+//         this.state.points.push(el.location);
+//         console.log(this.state.points);
+//     })
+
+
+
   render() {
     const style = {
       width: '100%',
@@ -43,14 +62,16 @@ import CurrentLocation from './CurrentLocation';
       position:'relative',
       'marginLeft': 'auto',
       'marginRight': 'auto'
-    }
+    };
+    const {google} = this.props;
+
     return (
       <CurrentLocation
         centerAroundCurrentLocation
         google={this.props.google}
         style={style}
         onClick={this.onMapClicked}
-
+        // bounds={bounds}
       >
 
    {this.props.events.map((el, index) => {
@@ -69,18 +90,28 @@ import CurrentLocation from './CurrentLocation';
         position = {{ lat: el.location.lat, lng: el.location.lon }}
          name={el.location.address.street_address }
          text="My Marker"
+         animation = {google.maps.Animation.DROP}
             />
          )
        } )
  }
-
+    <Marker 
+        name={'Your position'}
+        onClick={this.onMarkerClick}
+        // animation = {google.maps.Animation.BOUNCE}
+        // position={{lat: 60.1847984, lng: 24.9389162}}
+        icon={{
+          url: 'media/green.png',
+          scaledSize: new google.maps.Size(30,45),
+          
+        }} 
+         />
 
          <InfoWindow
 
           marker={this.state.activeMarker}
           visible={this.state.showingInfoWindow}
           onClose={this.onClose}
-
         >
           <div>
             <h4>{this.state.selectedPlace.name}</h4>

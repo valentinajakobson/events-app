@@ -57,6 +57,9 @@ class CurrentLocation extends Component {
         }
         this.loadMap();
       }
+
+     
+
       loadMap() {
         if (this.props && this.props.google) {
           // checks if google is available
