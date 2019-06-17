@@ -11,6 +11,7 @@ class App extends Component {
     super(props)
     this.state = {
      data: null,
+     pins: null,
      limit: 20,
      start: 0,
      filter_type: '',

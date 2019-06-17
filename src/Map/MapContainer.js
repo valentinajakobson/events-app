@@ -43,7 +43,7 @@ export class MapContainer extends Component {
           {this.props.events.map((el, index) => {
               return <Marker key={index}
               position={{lat: el.lat, lng: el.lon}}
-              
+              onClick={this.onMarkerClick}
               />
           })
           }
