@@ -15,7 +15,8 @@ class App extends Component {
      start: 0,
      filter_type: '',
      filter_lang: '',
-     filter_distance: ''
+     filter_distance: '20',
+     position: {lat: 60.16952, lon: 24.93545}
 
     }
     this.handleChange = this.handleChange.bind(this);
@@ -37,7 +38,7 @@ class App extends Component {
   }
 
   getEvents() {
-    axios.get(`http://localhost:3001/api/?limit=${this.state.limit}&${this.state.filter_type}&${this.state.filter_lang}`)
+    axios.get(`http://localhost:3001/api/?limit=${this.state.limit}&${this.state.filter_type}&${this.state.filter_lang}&distance_filter=${this.state.position.lat},${this.state.position.lon},${this.state.filter_distance}`)
     .then(result => {
       this.setState(state => {
         state.data = result.data;
@@ -79,7 +80,7 @@ class App extends Component {
   handleScroll() {
     if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
       console.log('load data')
-      axios.get(`http://localhost:3001/api/?limit=${this.state.limit}&start=${this.state.start}&${this.state.filter_type}&${this.state.filter_lang}`)
+      axios.get(`http://localhost:3001/api/?limit=${this.state.limit}&start=${this.state.start}&${this.state.filter_type}&${this.state.filter_lang}&distance_filter=${this.state.position.lat},${this.state.position.lon},${this.state.filter_distance}`)
         .then(result => {
           this.setState(state => {
             state.data = [ ...this.state.data, ...result.data];
