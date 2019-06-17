@@ -202,3 +202,22 @@ footer ul {
   font-family: 'Montserrat', sans-serif;
   font-weight: bold;
 }
+
+@media all and (min-device-width: 280px) and (max-device-width: 500px) {
+  .App {
+    /* overflow-x: hidden; */
+  }
+
+  .sub-menu {
+    left: 0;
+  }
+
+  .by-type, .by-language {
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  footer{
+    margin-top: 0;
+  }
+}
