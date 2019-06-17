@@ -17,7 +17,8 @@ class App extends Component {
      filter_type: '',
      filter_lang: '',
      filter_distance: '20',
-     position: {lat: 60.16952, lon: 24.93545}
+     position: {lat: 60.16952, lon: 24.93545},
+     selectedEvent: null
 
     }
     this.handleChange = this.handleChange.bind(this);
@@ -26,6 +27,7 @@ class App extends Component {
     this.getPins = this.getPins.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
     this.getPosition = this.getPosition.bind(this);
+    this.handleEventClick= this.handleEventClick.bind(this);
   }
 
   getPosition() {
@@ -91,6 +93,15 @@ class App extends Component {
         });
         console.log(this.state);
     }
+  }
+
+  handleEventClick(event) {
+    let id = event.target.id;
+    this.setState(state => {
+      console.log(id)
+      state.selectedEvent = state.data[id];
+      return state;
+    });
   }
 
   componentDidMount() {
@@ -252,6 +263,7 @@ class App extends Component {
           return(
             <EventBox
                       key={index}
+                      id={index}
                       name={el.name.fi}
                       address={el.location.address.street_address}
                       postcode={el.location.address.postal_code}
@@ -261,12 +273,14 @@ class App extends Component {
                       date={el.dates.slice(0,10).split("-").reverse().join(".")}
                       time={el.dates.slice(11,16).split("-").reverse().join("/")}
                       url={el.url}
+                      onClick={this.handleEventClick}
                       />
             )
         } else {
           return(
             <EventBox
                       key={index}
+                      id={index}
                       name={el.name.fi}
                       address={el.location.address.street_address}
                       postcode={el.location.address.postal_code}
@@ -274,6 +288,7 @@ class App extends Component {
                       intro={el.description.intro}
                       image={el.img}
                       url={el.url}
+                      onClick={this.handleEventClick}
                        />
             )
         }
@@ -286,7 +301,7 @@ class App extends Component {
             <aside class='sticky'>
             <MapContainer style={{height: '94vh'}}
             center={{lat: this.state.position.lat, lng: this.state.position.lon}}
-            events={this.state.pins}/>
+            events={this.state.pins} selectedEvent={this.state.selectedEvent}/>
             
             </aside>
           </div>

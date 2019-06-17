@@ -38,13 +38,28 @@ export class MapContainer extends Component {
   }
 
   render() {
+    let center = this.props.center;
+    console.log(this.props);
+    if (this.props.selectedEvent != null) {
+      center = {lat: this.props.selectedEvent.location.lat, lng: this.props.selectedEvent.location.lon};
+    }
+
     return (
-      <Map google={this.props.google} zoom={14} initialCenter={this.props.center} style={this.props.style}>
+      <Map google={this.props.google} zoom={14} initialCenter={this.props.center} center={center} style={this.props.style}>
           {this.props.events.map((el, index) => {
-              return <Marker key={index}
-              position={{lat: el.lat, lng: el.lon}}
-              onClick={this.onMarkerClick}
-              />
+            if (center.lat == el.lat && center.lng == el.lon) {
+              return (<Marker key={index}
+                position={{lat: el.lat, lng: el.lon}}
+                onClick={this.onMarkerClick}
+                icon = {{
+                  url: "http://maps.google.com/mapfiles/ms/icons/blue.png",
+  
+                }}/>)
+            } else {
+              return (<Marker key={index}
+                position={{lat: el.lat, lng: el.lon}}
+                onClick={this.onMarkerClick}/>)
+            }
           })
           }
 

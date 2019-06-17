@@ -20,6 +20,8 @@
 
 .image-holder {
   grid-row: 1/4;
+  pointer-events: none;
+
 }
 
 img {
@@ -27,6 +29,8 @@ img {
   height:100%;
   object-fit: cover;
   transition: transform 200ms linear;
+  pointer-events: none;
+
 }
 
 img:hover{
@@ -37,6 +41,7 @@ img:hover{
   margin: 0 0 1em 0;
   font-family: "Hind";
   font-size: 0.875em;
+  pointer-events: none;
 }
 
 .name{
