@@ -3,10 +3,28 @@ import MapContainer from './Map/MapContainer';
 import Header from './Header/Header';
 import RadioInput from './RadioInput';
 import EventBox from './EventBox';
+import BackToTop from './BackToTop';
 import axios from 'axios';
+import {Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller} from 'react-scroll'
+
+window.onscroll = function() {
+  scrollFunction()
+};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 40 || document.documentElement.scrollTop > 40) {
+    document.getElementById("back-to-top").style.display = "block";
+  } else {
+    document.getElementById("back-to-top").style.display = "none";
+  }
+}
+
+function backtotopFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
 
 class App extends Component {
-
   constructor (props){
     super(props)
     this.state = {
@@ -15,13 +33,13 @@ class App extends Component {
      start: 0,
      filter_type: '',
      filter_lang: '',
-
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getEvents = this.getEvents.bind(this);
     this.getPins = this.getPins.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
+    this.scrollToTop = this.scrollToTop.bind(this); //scroller
   }
 
   getEvents() {
@@ -56,7 +74,6 @@ class App extends Component {
 
   handleChange(event) {
     let newFilter = {};
-
     newFilter[event.target.name] = event.target.value;
     this.setState({
       ...this.state, ...newFilter, ...{start: 0}
@@ -68,21 +85,28 @@ class App extends Component {
     if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
       console.log('load data')
       axios.get(`http://localhost:3001/api/?limit=${this.state.limit}&start=${this.state.start}&${this.state.filter_type}&${this.state.filter_lang}`)
-        .then(result => {
-          this.setState(state => {
-            state.data = [ ...this.state.data, ...result.data];
-            state.start = this.state.data.length + 1;
-            return state;
-          });
+      .then(result => {
+        this.setState(state => {
+          state.data = [ ...this.state.data, ...result.data];
+          state.start = this.state.data.length + 1;
+          return state;
         });
-        console.log(this.state);
+      });
+      console.log(this.state);
     }
   }
 
   componentDidMount() {
     this.getEvents();
     this.getPins();
-    window.addEventListener('scroll', this.handleScroll)
+    Events.scrollEvent.register('begin', function () {
+    });
+    Events.scrollEvent.register('end', function () {
+    });
+  }
+
+  scrollToTop() {
+    scroll.scrollToTop();
   }
 
   render() {
@@ -166,7 +190,6 @@ class App extends Component {
                           <span>Museums</span>
                         </label>
                       </li>
-
                     </div>
                     <div className='by-language-header'>
                       <i className="fas fa-language"></i>
@@ -204,50 +227,48 @@ class App extends Component {
           </ul>
         </nav>
         <div className='map-events-holder'>
-        <article>
-       {this.state.data.map((el, index) => {
-     if (el.dates) {
-       return(
-         <div className="complex-box">
-           <EventBox
-                   key={index}
-                   name={el.name.fi}
-                   address={el.location.address.street_address}
-                   postcode={el.location.address.postal_code}
-                   city={el.location.address.locality}
-                   intro={el.description.intro}
-                   image={el.img}
-                   date={el.dates.slice(0,10).split("-").reverse().join(".")}
-                   time={el.dates.slice(11,16).split("-").reverse().join("/")}
-                   url={el.url}
-           />
-           <MapContainer style={{height: '30vh'}} events={this.state.data} />
-         </div>
-       )
-     } else {
-       return(
-         <div className="complex-box">
-           <EventBox
-                   key={index}
-                   name={el.name.fi}
-                   address={el.location.address.street_address}
-                   postcode={el.location.address.postal_code}
-                   city={el.location.address.locality}
-                   intro={el.description.intro}
-                   image={el.img}
-                   url={el.url}
-           />
-           <MapContainer style={{height: '30vh'}} events={this.state.data} />
-         </div>
-       )
-     }
-     })
-    }
-    </article>
-
+          <article>
+            {this.state.data.map((el, index) => {
+              if (el.dates) {
+                return(
+                  <div className="complex-box">
+                    <EventBox
+                      key={index}
+                      name={el.name.fi}
+                      address={el.location.address.street_address}
+                      postcode={el.location.address.postal_code}
+                      city={el.location.address.locality}
+                      intro={el.description.intro}
+                      image={el.img}
+                      date={el.dates.slice(0,10).split("-").reverse().join(".")}
+                      time={el.dates.slice(11,16).split("-").reverse().join("/")}
+                      url={el.url}
+                    />
+                    <MapContainer style={{height: '30vh'}} events={this.state.data} />
+                  </div>
+                )
+              }else{
+                return(
+                  <div className="complex-box">
+                    <EventBox
+                      key={index}
+                      name={el.name.fi}
+                      address={el.location.address.street_address}
+                      postcode={el.location.address.postal_code}
+                      city={el.location.address.locality}
+                      intro={el.description.intro}
+                      image={el.img}
+                      url={el.url}
+                    />
+                    <MapContainer style={{height: '30vh'}} events={this.state.data} />
+                  </div>
+                )
+              }
+            })}
+          </article>
           <div id='map-holder'>
             <aside className='sticky'>
-            <MapContainer style={{height: '94vh'}}  events={this.state.data} />
+              <MapContainer style={{height: '94vh'}}  events={this.state.data} />
             </aside>
           </div>
         </div>
@@ -264,6 +285,10 @@ class App extends Component {
               </li>
             </ul>
           </footer>
+          {/*<button id="back-to-top" onClick={backtotopFunction} style={{display: 'none', position: 'fixed', bottom: '20em', left: '20em'}}>*/}
+          <button id="back-to-top" onClick={this.scrollToTop} style={{display: 'none', position: 'fixed', bottom: '20em', left: '20em'}}>
+            Press
+          </button>
         </div>
       );
     }
