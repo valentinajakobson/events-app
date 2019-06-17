@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
+import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import './Map.css';
-import CurrentLocation from './CurrentLocation';
-
-
- class MapContainer extends Component {
+ 
+export class MapContainer extends Component {
 
   constructor(props) {
     super(props);
@@ -13,13 +11,14 @@ import CurrentLocation from './CurrentLocation';
       showingInfoWindow: false,
       activeMarker: {},
       selectedPlace: {},
-      streetViewControl: true
+      streetViewControl: true,
+      names: []
     }
 
-    // binding this to event-handler functions
     this.onMarkerClick = this.onMarkerClick.bind(this);
     this.onMapClick = this.onMapClick.bind(this);
   }
+
   onMarkerClick = (props, marker, e) => {
     this.setState({
       selectedPlace: props,
@@ -27,6 +26,8 @@ import CurrentLocation from './CurrentLocation';
       showingInfoWindow: true
     });
   }
+
+
   onMapClick = (props) => {
     if (this.state.showingInfoWindow) {
       this.setState({
@@ -35,51 +36,34 @@ import CurrentLocation from './CurrentLocation';
       });
     }
   }
+
   render() {
-    const style = {
-      width: '100%',
-      height: '94vh',
-      position:'relative',
-      'marginLeft': 'auto',
-      'marginRight': 'auto'
-    }
     return (
-      <CurrentLocation
-        centerAroundCurrentLocation
-        google={this.props.google}
-        style={style}
-        onClick={this.onMapClicked}
-      >
-    <Marker
-        onClick={this.onMarkerClick}  />
-         {this.props.events.map((el, index) => {
-         return(
-    <Marker
+      <Map google={this.props.google} zoom={14} initialCenter={this.props.center} style={this.props.style}>
+          {this.props.events.map((el, index) => {
+              return <Marker key={index}
+              position={{lat: el.location.lat, lng: el.location.lon}}
+              name={el.location.address.street_address}
+              onClick={this.onMarkerClick}
+              />
+          })
+          }
 
-            onClick={this.onMarkerClick}
-           position = {{ lat: el.lat, lng: el.lon }}
-           name={ el.street_address }
+          <InfoWindow
+            marker={this.state.activeMarker}
+            visible={this.state.showingInfoWindow}
+            onClose={this.onClose}
+          >
+            <div>
+              <h4>{this.state.selectedPlace.name}</h4>
+            </div>
+          </InfoWindow>
 
-            />
-         )
-       } )
- }
-
-
-         <InfoWindow
-          marker={this.state.activeMarker}
-          visible={this.state.showingInfoWindow}
-          onClose={this.onClose}
-        >
-          <div>
-            <h4>{this.state.selectedPlace.name}</h4>
-          </div>
-        </InfoWindow>
-      </CurrentLocation>
+      </Map>
     );
   }
 }
-
+ 
 export default GoogleApiWrapper({
-    apiKey: (process.env.REACT_APP_GOOGLE_API_KEY)
-})(MapContainer);
+  apiKey: (process.env.REACT_APP_GOOGLE_API_KEY)
+})(MapContainer)
