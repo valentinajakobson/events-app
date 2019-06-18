@@ -4,24 +4,24 @@ import Header from './Header/Header';
 import RadioInput from './RadioInput';
 import EventBox from './EventBox';
 import axios from 'axios';
-import {Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller} from 'react-scroll'
+// import {Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller} from 'react-scroll'
 
-window.onscroll = function() {
-  scrollFunction()
-};
+// window.onscroll = function() {
+//   scrollFunction()
+// };
 
-function scrollFunction() {
-  if (document.body.scrollTop > 40 || document.documentElement.scrollTop > 40) {
-    document.getElementById("back-to-top").style.display = "block";
-  } else {
-    document.getElementById("back-to-top").style.display = "none";
-  }
-}
+// function scrollFunction() {
+//   if (document.body.scrollTop > 40 || document.documentElement.scrollTop > 40) {
+//     document.getElementById("back-to-top").style.display = "block";
+//   } else {
+//     document.getElementById("back-to-top").style.display = "none";
+//   }
+// }
 
-function backtotopFunction() {
-  document.body.scrollTop = 0;
-  document.documentElement.scrollTop = 0;
-}
+// function backtotopFunction() {
+//   document.body.scrollTop = 0;
+//   document.documentElement.scrollTop = 0;
+// }
 
 class App extends Component {
   constructor (props){
@@ -38,7 +38,7 @@ class App extends Component {
     this.getEvents = this.getEvents.bind(this);
     this.getPins = this.getPins.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
-    this.scrollToTop = this.scrollToTop.bind(this); //scroller
+    // this.scrollToTop = this.scrollToTop.bind(this); //scroller
   }
 
   getEvents() {
@@ -67,8 +67,8 @@ class App extends Component {
     event.preventDefault();
     this.getEvents();
     this.getPins();
-    document.documentElement.scrollTop = 0;
-    console.log(this.state);
+    // document.documentElement.scrollTop = 0;
+    // console.log(this.state);
   }
 
   handleChange(event) {
@@ -99,15 +99,15 @@ class App extends Component {
     this.getEvents();
     this.getPins();
     window.addEventListener('scroll', this.handleScroll);
-    Events.scrollEvent.register('begin', function () {
-    });
-    Events.scrollEvent.register('end', function () {
-    });
+    // Events.scrollEvent.register('begin', function () {
+    // });
+    // Events.scrollEvent.register('end', function () {
+    // });
   }
 
-  scrollToTop() {
-    scroll.scrollToTop();
-  }
+  // scrollToTop() {
+  //   scroll.scrollToTop();
+  // }
 
   render() {
 
@@ -132,61 +132,55 @@ class App extends Component {
                     <div className='by-type'>
                       <li>
                         <label className='filter-button'>
-                          <RadioInput type='radio' name='filter_type' value='tags_search=Teatteri' onChange={this.handleChange}/>
+                          <RadioInput type='radio' className='filter_type' value='tags_search=Teatteri' onChange={this.handleChange}/>
                           <span>Perfomances</span>
                         </label>
                       </li>
                       <li>
                         <label className='filter-button'>
-                          <RadioInput type='radio' name='filter_type' value='tags_search=music' onChange={this.handleChange}/>
+                          <RadioInput type='radio' className='filter_type' value='tags_search=music' onChange={this.handleChange}/>
                           <span>Music</span>
                         </label>
                       </li>
                       <li>
                         <label className='filter-button'>
-                          <input type='radio' name='filter_type' value='tags_search=families' onChange={this.handleChange}/>
-                          <span>Families</span>
-                        </label>
-                      </li>
-                      <li>
-                        <label className='filter-button'>
-                          <input type='radio' name='filter_type' value='tags_search=games' onChange={this.handleChange}/>
+                          <input type='radio' className='filter_type' value='tags_search=games' onChange={this.handleChange}/>
                           <span>Games</span>
                         </label>
                       </li>
                       <li>
                         <label className='filter-button'>
-                          <input type='radio' name='filter_type' value='tags_search=sports' onChange={this.handleChange}/>
+                          <input type='radio' className='filter_type' value='tags_search=sports' onChange={this.handleChange}/>
                           <span>Sports</span>
                         </label>
                       </li>
                       <li>
                         <label className='filter-button'>
-                          <input type='radio' name='filter_type' value='tags_search=dance' onChange={this.handleChange}/>
+                          <input type='radio' className='filter_type' value='tags_search=dance' onChange={this.handleChange}/>
                           <span>Dance</span>
                         </label>
                       </li>
                       <li>
                         <label className='filter-button'>
-                          <input type='radio' name='filter_type' value='tags_search=families' onChange={this.handleChange}/>
+                          <input type='radio' className='filter_type' value='tags_search=families' onChange={this.handleChange}/>
                           <span>Families</span>
                         </label>
                       </li>
                       <li>
                         <label className='filter-button'>
-                          <input type='radio' name='filter_type' value='tags_search=exhibitions' onChange={this.handleChange}/>
+                          <input type='radio' className='filter_type' value='tags_search=exhibitions' onChange={this.handleChange}/>
                           <span>Exhibitions</span>
                         </label>
                       </li>
                       <li>
                         <label className='filter-button'>
-                          <input type='radio' name='filter_type' value='tags_search=architecture' onChange={this.handleChange}/>
+                          <input type='radio' className='filter_type' value='tags_search=architecture' onChange={this.handleChange}/>
                           <span>Architecture</span>
                         </label>
                       </li>
                       <li>
                         <label className='filter-button'>
-                          <input type='radio' name='filter_type' value='tags_search=museums' onChange={this.handleChange}/>
+                          <input type='radio' className='filter_type' value='tags_search=museums' onChange={this.handleChange}/>
                           <span>Museums</span>
                         </label>
                       </li>
@@ -197,26 +191,55 @@ class App extends Component {
                     <div className='by-language'>
                       <li>
                         <label className='filter-button'>
-                          <RadioInput name='filter_lang' value='language_filter=fi' onChange={this.handleChange} />
+                          <RadioInput className='filter_lang' value='language_filter=fi' onChange={this.handleChange} />
                           <span>Suomi</span>
                         </label>
                       </li>
                       <li>
                         <label className='filter-button'>
-                          <RadioInput type='radio' name='filter_lang' value='language_filter=sv' onChange={this.handleChange} />
+                          <RadioInput type='radio' className='filter_lang' value='language_filter=sv' onChange={this.handleChange} />
                           <span>Svenska</span>
                         </label>
                       </li>
                       <li>
                         <label className='filter-button'>
-                          <RadioInput type='radio' name='filter_lang' value='language_filter=en' onChange={this.handleChange} />
+                          <RadioInput type='radio' className='filter_lang' value='language_filter=en' onChange={this.handleChange} />
                           <span>English</span>
                         </label>
                       </li>
                       <li>
                         <label className='filter-button'>
-                          <RadioInput type='radio' name='filter_lang' value='language_filter=ru' onChange={this.handleChange} />
+                          <RadioInput type='radio' className='filter_lang' value='language_filter=ru' onChange={this.handleChange} />
                           <span>Русский</span>
+                        </label>
+                      </li>
+                    </div>
+                    <div className='by-distance-header'>
+                      <i class="fas fa-road"></i>
+                    </div>
+                    <div className='by-distance'>
+                      <li>
+                        <label className='filter-button'>
+                          <RadioInput className='filter_lang' value='language_filter=fi' onChange={this.handleChange} />
+                          <span>1 km</span>
+                        </label>
+                      </li>
+                      <li>
+                        <label className='filter-button'>
+                          <RadioInput type='radio' className='filter_lang' value='language_filter=sv' onChange={this.handleChange} />
+                          <span>1.05 km</span>
+                        </label>
+                      </li>
+                      <li>
+                        <label className='filter-button'>
+                          <RadioInput type='radio' className='filter_lang' value='language_filter=en' onChange={this.handleChange} />
+                          <span>1.27 km</span>
+                        </label>
+                      </li>
+                      <li>
+                        <label className='filter-button'>
+                          <RadioInput type='radio' className='filter_lang' value='language_filter=ru' onChange={this.handleChange} />
+                        <span>15 km</span>
                         </label>
                       </li>
                     </div>
@@ -234,7 +257,7 @@ class App extends Component {
                   <div className="complex-box">
                     <EventBox
                       key={index}
-                      name={el.name.fi}
+                      className={el.name.fi}
                       address={el.location.address.street_address}
                       postcode={el.location.address.postal_code}
                       city={el.location.address.locality}
@@ -252,7 +275,7 @@ class App extends Component {
                   <div className="complex-box">
                     <EventBox
                       key={index}
-                      name={el.name.fi}
+                      className={el.name.fi}
                       address={el.location.address.street_address}
                       postcode={el.location.address.postal_code}
                       city={el.location.address.locality}
