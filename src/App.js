@@ -4,24 +4,24 @@ import Header from './Header/Header';
 import RadioInput from './RadioInput';
 import EventBox from './EventBox';
 import axios from 'axios';
-// import {Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller} from 'react-scroll'
+import {Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller} from 'react-scroll'
 
-// window.onscroll = function() {
-//   scrollFunction()
-// };
+window.onscroll = function() {
+  scrollFunction()
+};
 
-// function scrollFunction() {
-//   if (document.body.scrollTop > 40 || document.documentElement.scrollTop > 40) {
-//     document.getElementById("back-to-top").style.display = "block";
-//   } else {
-//     document.getElementById("back-to-top").style.display = "none";
-//   }
-// }
+function scrollFunction() {
+  if (document.body.scrollTop > 40 || document.documentElement.scrollTop > 40) {
+    document.getElementById("back-to-top").style.display = "block";
+  } else {
+    document.getElementById("back-to-top").style.display = "none";
+  }
+}
 
-// function backtotopFunction() {
-//   document.body.scrollTop = 0;
-//   document.documentElement.scrollTop = 0;
-// }
+function backtotopFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
 
 class App extends Component {
   constructor (props){
@@ -38,7 +38,7 @@ class App extends Component {
     this.getEvents = this.getEvents.bind(this);
     this.getPins = this.getPins.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
-    // this.scrollToTop = this.scrollToTop.bind(this); //scroller
+    this.scrollToTop = this.scrollToTop.bind(this); //scroller
   }
 
   getEvents() {
@@ -67,7 +67,7 @@ class App extends Component {
     event.preventDefault();
     this.getEvents();
     this.getPins();
-    // document.documentElement.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
     // console.log(this.state);
   }
 
@@ -99,15 +99,15 @@ class App extends Component {
     this.getEvents();
     this.getPins();
     window.addEventListener('scroll', this.handleScroll);
-    // Events.scrollEvent.register('begin', function () {
-    // });
-    // Events.scrollEvent.register('end', function () {
-    // });
+    Events.scrollEvent.register('begin', function () {
+    });
+    Events.scrollEvent.register('end', function () {
+    });
   }
 
-  // scrollToTop() {
-  //   scroll.scrollToTop();
-  // }
+  scrollToTop() {
+    scroll.scrollToTop();
+  }
 
   render() {
 
@@ -215,7 +215,7 @@ class App extends Component {
                       </li>
                     </div>
                     <div className='by-distance-header'>
-                      <i class="fas fa-road"></i>
+                      <i className="fas fa-road"></i>
                     </div>
                     <div className='by-distance'>
                       <li>
