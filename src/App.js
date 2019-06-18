@@ -3,7 +3,6 @@ import MapContainer from './Map/MapContainer';
 import Header from './Header/Header';
 import RadioInput from './RadioInput';
 import EventBox from './EventBox';
-import BackToTop from './BackToTop';
 import axios from 'axios';
 import {Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller} from 'react-scroll'
 
@@ -99,6 +98,7 @@ class App extends Component {
   componentDidMount() {
     this.getEvents();
     this.getPins();
+    window.addEventListener('scroll', this.handleScroll);
     Events.scrollEvent.register('begin', function () {
     });
     Events.scrollEvent.register('end', function () {
@@ -285,7 +285,6 @@ class App extends Component {
               </li>
             </ul>
           </footer>
-          {/*<button id="back-to-top" onClick={backtotopFunction} style={{display: 'none', position: 'fixed', bottom: '20em', left: '20em'}}>*/}
           <button id="back-to-top" onClick={this.scrollToTop} style={{display: 'none', position: 'fixed', bottom: '20em', left: '20em'}}>
             Press
           </button>
